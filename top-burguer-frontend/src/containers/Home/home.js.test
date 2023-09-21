@@ -1,0 +1,40 @@
+// Primeiro, instale as dependências necessárias usando npm ou yarn:
+// npm install jest enzyme enzyme-adapter-react-16 react-test-renderer -D
+
+// Em seguida, importe as dependências necessárias no arquivo de teste:
+
+import React from 'react';
+import { shallow } from 'enzyme';
+import renderer from 'react-test-renderer';
+import { Home } from './Home'; // Importe o componente a ser testado
+
+// Teste unitário básico para verificar se o componente é renderizado corretamente
+test('Home component renders without crashing', () => {
+  shallow(<Home />);
+});
+
+// Teste unitário para verificar se a imagem está sendo exibida corretamente
+test('Home component renders the image', () => {
+  const wrapper = shallow(<Home />);
+  const img = wrapper.find('img');
+  expect(img.prop('src')).toEqual('../../assets/ImgHomeBurguer.png');
+});
+
+// Teste unitário para verificar se os componentes filho estão sendo renderizados corretamente
+test('Home component renders child components', () => {
+  const wrapper = shallow(<Home />);
+  expect(wrapper.find('OffersCarousel')).toHaveLength(1);
+  expect(wrapper.find('CategoryCarousel')).toHaveLength(1);
+});
+
+// Teste unitário para verificar se o IsloadingSpinner está sendo renderizado corretamente
+test('Home component renders the IsloadingSpinner', () => {
+  const wrapper = shallow(<Home />);
+  expect(wrapper.find('IsloadingSpinner')).toHaveLength(1);
+});
+
+// Teste de snapshot usando o react-test-renderer
+test('Home component matches snapshot', () => {
+  const tree = renderer.create(<Home />).toJSON();
+  expect(tree).toMatchSnapshot();
+});
